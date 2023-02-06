@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Andika:ital@1&family=Dancing+Script:wght@500&family=Kanit:wght@300&family=Open+Sans:wght@300&family=Oswald:wght@300&family=Roboto+Mono&display=swap');
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.container{
+	display: flex;
+	flex-direction: column;
+	height: 1500px;
+	width: 100%;
+}
+
+.sideBar{
+	width: 25%;
+	height: 100%;
+	background-color: #272f41;
+}
+.sideBar ul{
+	height: 100%;
+}
+
+.sideBar svg{
+	width: 20px;
+	height: 20px;
+}
+.sideBar a{
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	
+}
+.sideBar li{
+	padding: 5px 15px;
+	display: flex;
+	justify-content: start;
+	height: 50px;
+	border-bottom: 1px solid #3b455c;
+}
+
+.sideBar span{
+	color: rgb(187, 179, 179);
+	font-family: 'Roboto Mono', monospace;
+	margin-left: 10px;
+}
+.sideBar span:hover{
+	color: rgb(255, 251, 251);
+	transition: 0.5s;
+}
+
+.containerInner{
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.navBar{
+	display: flex;
+	align-items:center;
+	justify-content: space-between;
+	padding: 10px;
+	width: 100%;
+	height: 70px;
+	background-color: #4f526d;
+}
+.navBar input{
+	padding: 5px;
+	width: 430px;
+	height: 35px;
+	border-radius: 5px;
+	border:none;
+	outline: none;
+}
+.filteredList{
+	display: none;
+	margin-top: 8px;
+	position: absolute;
+	height: 400px;
+	width: 430px;
+	background: #6f7391;
+	border-radius: 5px;
+	overflow: auto;
+}
+.filteredList .filteredListDiv{
+	height: 50px;
+	padding: 8px;
+	border-bottom: 2px solid #5b6c93;
+	cursor: pointer;
+}
+.filteredList .filteredListDiv:hover{
+	background: #5f637d;
+	transition: 0.3s;
+}
+.filteredListDiv p{
+	font-family: 'Roboto Mono', monospace;
+	font-size: 14px;
+	color: rgb(226, 222, 222)
+}
+.navBar .logoTitle{
+	display: flex;
+	align-items: center;
+	margin: 0 auto 0 0;
+	cursor: pointer;
+}
+.navBar .logo{
+	width: 50px;
+	height: 50px;
+}
+.navBar .title{
+	margin-left: 5px;
+	font-family: 'Roboto Mono', monospace;
+}
+.navBar .navLinks{
+	display: flex;
+	margin-right: 20px;	
+}
+.navBar .navLinks a{
+	margin-right: 20px;
+	text-decoration: none;
+	color: rgb(187, 179, 179);
+}
+.navBar .navLinks a:hover{
+	color: rgb(255, 251, 251);
+	transition: 0.5s;
+}
+.content{
+	width: 100%;
+	height: 100%;
+	background-color: rgb(213, 206, 206);
+}
+
+.content .wallpaperImg{
+	width: 100%;
+	height: 418px;
+	border-radius: 0 0 8px 8px;
+}
+.content .infoBlock{
+	width: 70%;
+	height: 500px;
+	margin: 50px auto 0 auto;
+	padding: 20px;
+	background-color: #4f526d;
+	border-radius: 10px;
+}
+.content .infoBlock .infoItem{
+	margin-bottom: 30px;
+}
+.content .infoBlock h4{
+	color: rgb(171, 168, 168);
+	margin-bottom: 5px;
+}
+.content .infoBlock p{
+	color: white;
+}
+.content .infoBlock p img{
+	width: 10px;
+}
+.recs{
+	width: 100%;
+	height: 500px;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0px 20px;
+	margin-top: 20px;
+}
+.recs .rec{
+	width: 200px;
+	height: 240px;
+	margin: auto;
+	text-align: center;
+	border-radius: 8px;
+	background-color: white;
+}
+.recs .rec img{
+	width: 100%;
+	height: 190px;
+	border-radius: 8px 8px 0 0;
+}
+
+.content .title{
+	margin: 40px 0 0 20px;
+	font-family: 'Roboto Mono', monospace;
+}
+.recs .rec .rates{
+	width: 100%;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.recs .rec .rates img{
+	width: 10px;
+	height: 10px;
+}
+.recs .rec .rates h4{
+	height: 100%;
+}
+.recs .rec .filmTitle{
+	font-family: 'Roboto Mono', monospace;
+}
