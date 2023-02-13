@@ -5,36 +5,35 @@ const container = document.querySelector(".container");
 const containerInner = document.createElement("div");
 const navBar = document.createElement("div");
 const content = document.createElement("div");
-const recs = document.createElement("div");
+const tops = document.createElement("div");
 navBar.classList.add("navBar");
 containerInner.classList.add("containerInner");
-recs.classList.add("recs");
+tops.classList.add("recs");
 content.classList.add("content");
-// containerInner.appendChild(content);
 
-const recsData = [
-	{id:1,title:"Bad Guys",img:"imgs/recs/badgays.jpg",starImg:"imgs/recs/star.png",rate:"7.2/10"},
-	{id:2,title:"Gray Man",img:"imgs/recs/grayman.png",starImg:"imgs/recs/star.png",rate:"8.1/10"},
-	{id:3,title:"Hustle",img:"imgs/recs/hustle.png",starImg:"imgs/recs/star.png",rate:"8.3/10"},
-	{id:4,title:"Krik",img:"imgs/recs/krik.png",starImg:"imgs/recs/star.png",rate:"9.0/10"},
-	{id:5,title:"Lamborgini",img:"imgs/recs/lamborgini.png",starImg:"imgs/recs/star.png",rate:"8.5/10"},
-	{id:6,title:"The North Man",img:"imgs/recs/thenorthman.png",starImg:"imgs/recs/star.png",rate:"6.9/10"},
-	{id:7,title:"Carter",img:"imgs/recs/carter.png",starImg:"imgs/recs/star.png",rate:"8.0/10"},
-	{id:8,title:"Thr Weekend Away",img:"imgs/recs/theweekendaway.jpg",starImg:"imgs/recs/star.png",rate:"8.6/10"}
+const sideBarData = [
+	{id:1,title:"Popular"},
+	{id:2,title:"Genres"},
+	{id:3,title:"Upcomming"},
+	{id:4,title:"Latest"}
 ];
 
+
 const parametrs = {
-	path:"https://api.themoviedb.org/3/movie",
+	baseUrl:"https://api.themoviedb.org/3/movie",
+	imageUrl:"https://image.tmdb.org/t/p/w500",
 	api_key:"ef95e7811c7ac3fdefad4ff366807024",
 	filter:"popular"
 };
+
+const allFilms=[];
 
 
 function craeteNavBar(){
 	navBar.innerHTML =`
 			<div class="logoTitle">
 				<img src="/imgs/free-icon-theater-5029053.png" alt="" class="logo">
-				<h2 class="title">filmX</h2>
+				<h2 class="title">Hot-Films</h2>
 			</div>
 			<div class="navLinks">
 				<a class="options" href="">Options</a>
@@ -48,101 +47,104 @@ function craeteNavBar(){
 	`;
 	return navBar;
 }
-function createContainerInner(){
-	containerInner.innerHTML=`
-	<div class="sideBar">
-					<ul>
-					<li>
-						<a href="">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
-							<span>Popular</span>
-						</a>
-					</li>
-					<li>
-						<a href="">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
-							<span>Top Rated</span>
-						</a>
-					</li>
-					<li>
-						<a href="">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
-							<span>Upcomming</span>
-						</a>
-					</li>
-					<li>
-						<a href="">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
-							<span>Latest</span>
-						</a>
-					</li>
-					<li>
-						<a href="">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
-							<span>Most Watched</span>
-						</a>
-					</li>
-					</ul>
-		</div>
-	`;
-	containerInner.append(createContent(recsData));
-	return containerInner;
+
+function createSideBar(){
+	const sideBar = document.createElement("div");
+	sideBar.classList.add("sideBar");
+	sideBarData.forEach(item => {
+		sideBar.innerHTML += `
+		<li class="${item.title.replaceAll(' ', '')}">
+			<a href="">
+				<svg class="sideBarSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"/></svg>					
+				<span>${item.title}</span>
+			</a>
+		</li>
+		`;
+	});
+	return sideBar;
 }
+
 function createContent(recsData){
 	content.innerHTML = `
 	<div class="wallpaper">
 		<img src="imgs/marvel.jpg" alt="" class="wallpaperImg">
 	</div>
 	<div class="title">
-		<h2>Top Films 2022</h2>
+		<h2>Top Films</h2>
 	</div>
 	`;
-	recsData.forEach(item => {
-		recs.innerHTML += `
-		<div class="rec">
-			<img src=${item.img} alt="">
-			<h4 class="filmTitle">${item.title}</h4>
-			<div class="rates">
-				<img src=${item.starImg} alt="">
-				<h4>${item.rate}</h4>
-			</div>
-		</div>
-	`;
-	});
-	content.appendChild(recs);
 	return content;
 }
-function render(){
-	container.append(craeteNavBar(),createContainerInner());
-	const allFilms=[];
-	res(allFilms);
-	search(allFilms);
-	reload();
-}
-render();
 
 function reload(){
 	const logoTitle = document.querySelector(".logoTitle");
 	logoTitle.addEventListener("click",() => window.location.reload());
 }
 
-function getDb(filter = parametrs.filter,path,api_key,pageNum){
+function createTopMoviesBlock(data){
+	data.results.forEach(item => {
+		console.log(item);
+			tops.innerHTML += `
+			<div class="rec">
+				<img src=${parametrs.imageUrl + item.poster_path} alt="">
+				<div class="topFilmsMiniInfo">
+					<h4 class="filmTitle">${item.title}</h4>
+					<div class="rates">
+						<img src="/imgs/recs/star.png" alt="">
+						<h4>${item.vote_average}</h4>
+					</div>
+				</div>
+			</div>
+		`;
+		
+	});
+	return tops;
+}
 
-	const url = `${path}/${filter}?api_key=${api_key}&language=en-US&page=${pageNum}&region=am`;
+function topMoviesblockInfo(data){
+	const tops = document.querySelectorAll(".rec");
+	tops.forEach(top => {
+		top.addEventListener("click",()=>{
+			const fakeId = (top.lastElementChild.firstElementChild.textContent);
+			console.log(data);
+			data.results.forEach(film => {
+				if(fakeId === film.title){
+					window.scrollTo(0,0);
+					createInfo(film);
+				}
+			});
+		});
+	});
+}
 
+function getMovies(parametrs, pageNum){
+	const url = `${parametrs.baseUrl}/${parametrs.filter}?api_key=${parametrs.api_key}&language=en-US&page=${pageNum}&region=am`;
 	return fetch(url).then(data => data.json());
 }
 
-function res(allFilms){
+function getImages(parametrs,imgPath){
+	const url = `${parametrs.imageUrl}/${imgPath}`;
+	return fetch(url);
+}
+
+function getGenres(){
+	return fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${parametrs.api_key}&language=en-US`)
+	.then(data => data.json());
+	
+}
+
+function mergeAllFilm(allFilms){
 		let i  = 1;
 		while(i<15){
-			getDb(parametrs.filter,parametrs.path,parametrs.api_key,i)
+			getMovies(parametrs,i)
 			.then(data =>{
 				data.results.forEach(item =>{
 					allFilms.push(item);
 				});
-			});	i++;
+			});i++;
 		}
+		popularMovies(allFilms);
+		createGenreslist(allFilms);
 }
 
 function search(allFilms){
@@ -175,7 +177,6 @@ function search(allFilms){
 	});
 }	
 
-
 function createInfoBlock(allFilms){
 	const filteredList = document.querySelector(".filteredList");
 	const filteredFilms = document.querySelectorAll(".filteredListDiv");
@@ -193,27 +194,164 @@ function createInfoBlock(allFilms){
 }
 
 function createInfo(film){
-	content.innerHTML = `
-	<div class="infoBlock">
-		<div class="infoItem">
-			<h4>Original Title</h4>
-			<p>${film.original_title}</p>
+	getImages(parametrs,film.poster_path)
+	.then(data => {
+		content.innerHTML = `
+		<div class="infoBlockBgDiv">
+			<div class="infoBlock">
+			<div class = "infoImgDiv">
+				<img src="${data.url}">
+			</div>
+				<div class="infoTextDiv">
+					<div class="infoItem">
+						<h4>Original Title</h4>
+						<p>${film.original_title}</p>
+					</div>
+					<div class="infoItem">
+						<h4>Summary</h4>
+						<p>${film.overview}</p>
+					</div>
+					<div class="infoItem">
+						<h4>Ratings</h4>
+						<p>
+							<img src="/imgs/recs/star.png">
+							${film.vote_average}/10
+						</p>
+					</div>
+					<div class="infoItem">
+						<h4>Number of rates</h4>
+						<p> ${film.vote_count}</p>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="infoItem">
-			<h4>Summary</h4>
-			<p>${film.overview}</p>
-		</div>
-		<div class="infoItem">
-			<h4>Ratings</h4>
-			<p>
-				<img src="/imgs/recs/star.png">
-				${film.vote_average}/10
-			</p>
-		</div>
-		<div class="infoItem">
-			<h4>Number of rates</h4>
-			<p> ${film.vote_count}</p>
-		</div>
-	</div>
-`;	
+		
+	`;	
+	})
+
 }
+
+ function popularMovies(allFilms){
+
+	const popularMoviesBtn = document.querySelector(".Popular");
+	
+	popularMoviesBtn.addEventListener("click",(e)=>{
+		const popular = allFilms.filter(film => film.popularity > 60);
+		e.preventDefault();
+		content.innerHTML = "";
+		popular.forEach(film => {
+			content.innerHTML += `
+				<div class="popularItems">
+					<h3>${film.title}</h3>
+					<div class ="popularItemsRate">
+						<img src="/imgs/recs/star.png">
+						<p>${film.vote_average}/10</p>
+					</div>
+				</div>
+			`;
+		});	
+
+		popularMoviesInfo(popular);
+	
+	});
+}
+
+function popularMoviesInfo(popular){
+	const popularItems = document.querySelectorAll(".popularItems");
+	popularItems.forEach(item => {
+		item.addEventListener("click",()=>{
+			popular.forEach(film => {
+				if(item.firstElementChild.textContent === film.title){
+					content.innerHTML = "";
+					window.scrollTo(0,0);
+					createInfo(film);
+				}
+			});
+		});
+	});
+}
+
+function createGenreslist(allFilms){
+	const genresBtn = document.querySelector(".Genres");
+
+	genresBtn.addEventListener("click",(e)=>{
+		e.preventDefault();
+		content.innerHTML = `
+		<div class="genresBlockTitles">
+			<h3 class="genresTitle">Genres</h3>
+			<h3 class="filmsTitle">Films</h3>
+		</div>
+		<div class="genresBlock">
+			<div class="genres"></div>
+			<div class="filmList"></div>
+		</div>`;
+		getGenres()
+		.then(data => {
+			data.genres.forEach(item => {
+				document.querySelector(".genres").innerHTML+=`
+					<div class = "genreDiv">
+						<h3>${item.name}</h3>
+					</div>
+				`;
+			});return data;
+		}).then(data => {
+			document.querySelectorAll(".genreDiv").forEach(genreDiv => {
+				genreDiv.addEventListener("click",() => createGenresFilmList(data,allFilms,genreDiv));
+			});
+		});
+	});
+}
+
+function createGenresFilmList(data,allFilms,genreDiv){
+	const filmList = document.querySelector(".filmList");
+	filmList.innerHTML = "";
+	data.genres.forEach(genre => {
+		if(genreDiv.firstElementChild.textContent === genre.name){
+			allFilms.forEach(film => {
+				if(film.genre_ids.includes(genre.id)){
+					filmList.innerHTML+=`
+						<div class = "genredFilm">
+							<h3>${film.title}</h3>
+							<img src="/imgs/recs/star.png">
+							<p>${film.vote_average}/10</p>
+						</div>
+					`;
+				}
+			});
+		}
+	});
+	console.log(document.querySelector(".genredFilm"));
+	document.querySelectorAll(".genredFilm").forEach(genredFilm => {
+		genredFilm.addEventListener("click",()=>{
+			allFilms.forEach(film => {
+				if(genredFilm.firstElementChild.textContent === film.title){
+					window.scrollTo(0,0);
+					createInfo(film);
+				}
+			});
+		});
+	});
+	
+}
+
+
+
+function render(){
+	containerInner.append(createSideBar(),createContent());
+	container.append(craeteNavBar(),containerInner);
+	mergeAllFilm(allFilms);
+	search(allFilms);
+	reload();
+}
+render();
+
+getMovies(parametrs,1)
+.then(data => {
+	content.appendChild(createTopMoviesBlock(data)) ;
+	return data;
+}).then(data => {
+		topMoviesblockInfo(data);
+});
+
+
+
